@@ -1,64 +1,62 @@
-import './App.css';
-import Home from './components/Home/Home/Home';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
-import LogIn from './components/LogIn/LogIn';
-import SignIn from './components/SignIn/SignIn';
-import CheckOut from './components/CheckOut/CheckOut';
-import AddProduct from './components/Admin/AddProduct/AddProduct';
-import ManageProduct from './components/Admin/ManageProduct/ManageProduct';
-import { createContext, useState } from 'react';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import Orders from './components/Orders/Orders';
-import MakeAdmin from './components/Admin/MakeAdmin/MakeAdmin';
-import NotAdmin from './components/NotAdmin/NotAdmin';
+import React, { createContext, useState } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Home from "./Components/Home/Home";
+import Header from "./Components/Header/Header";
+import Login from "./Components/Login/Login";
+import NotFound from "./Components/NotFound/NotFound";
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+import Admin from "./Components/Admin/Admin";
+import Deals from "./Components/Deals/Deals";
+import CheckOut from "./Components/CheckOut/CheckOut";
+import PlaceOrder from "./Components/PlaceOrder/PlaceOrder";
+import Orders from "./Components/Orders/Orders";
 
-export const UserContext = createContext()
+export const UserContext = createContext();
 
 function App() {
-
-  const [loggedInUser,setLoggedInUser] = useState({success:false})
-  const [isAdmin,setIsAdmin] = useState(false)
+  const [loggedInUser, setLoggedInUser] = useState({});
   return (
-    <div className="App">
-      <UserContext.Provider value={[loggedInUser,setLoggedInUser,isAdmin,setIsAdmin]} >
+    <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
       <Router>
-        <Switch>   
-          <PrivateRoute path="/notAdmin">
-            <NotAdmin/>
-          </PrivateRoute>
-        <PrivateRoute path="/orders">
-            <Orders/>
-          </PrivateRoute>
-        <PrivateRoute path="/manageProduct">
-            <ManageProduct/>
-          </PrivateRoute>
-        <PrivateRoute path="/addProduct">
-            <AddProduct/>
-          </PrivateRoute>
-          <PrivateRoute path="/makeAdmin">
-            <MakeAdmin/>
-          </PrivateRoute>
-        <PrivateRoute path="/checkOut/:id">
-            <CheckOut/>
-          </PrivateRoute>
-        <Route path="/signIn">
-            <SignIn/>
+        <Switch>
+          <Route exact path="/">
+            <Header></Header>
+            <Home />
           </Route>
-        <Route path="/login">
-            <LogIn/>
+          <Route path="/home">
+            <Header></Header>
+            <Home />
           </Route>
-          <Route path="/">
-          <Home/>
+          <Route path="/deals">
+            <Header></Header>
+            <Deals></Deals>
           </Route>
-          
+          <PrivateRoute exact path="/orders">
+            <Header></Header>
+            <Orders />
+          </PrivateRoute>
+          <Route path="/login">
+            <Header></Header>
+            <Login></Login>
+          </Route>
+          <PrivateRoute exact path="/checkOut/:id">
+            <Header></Header>
+            <CheckOut></CheckOut>
+          </PrivateRoute>
+          <PrivateRoute exact path="/checkOut/:id/placeOrder">
+            <Header></Header>
+            <PlaceOrder></PlaceOrder>
+          </PrivateRoute>
+          <PrivateRoute path="/admin">
+            <Admin></Admin>
+          </PrivateRoute>
+          <Route path="*">
+            <Header></Header>
+            <NotFound></NotFound>
+          </Route>
         </Switch>
       </Router>
-      </UserContext.Provider>
-    </div>
+    </UserContext.Provider>
   );
 }
 

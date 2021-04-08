@@ -1,76 +1,60 @@
-import React, { useContext, useEffect, useState } from "react";
-import { BsTypeH3 } from "react-icons/bs";
-import { useParams } from "react-router";
-import { UserContext } from "../../App";
-import Data from "../Home/Data/Data";
-import Header from "../Home/Navbar/Header";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
 
 const CheckOut = () => {
-  let { id } = useParams();
-  const [checkOutProduct, setCheckOutProduct] = useState({});
-  const [loggedInUser, setLoggedInUser] = useContext(UserContext);
-  const currentDate = new Date().toLocaleDateString();
+  const { id } = useParams();
+
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch(`https://sleepy-stream-34221.herokuapp.com/product/${id}`)
+    fetch("https://sleepy-stream-34221.herkuapp.com/products")
       .then((res) => res.json())
       .then((data) => {
-        setCheckOutProduct(data);
+        data.forEach((book) => {
+          if (book._id == id) {
+            setProducts(book);
+          }
+        });
       });
-  }, []);
+  }, [id]);
 
-  const handleAddOrder = () => {
-    const newOrder = { ...loggedInUser, checkOutProduct, currentDate };
-    fetch(`https://sleepy-stream-34221.herokuapp.com/addOrder`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newOrder),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          alert("Your Order Successfully");
-        }
-      });
+  const history = useHistory();
+  const handleBuy = (_id) => {
+    history.push(`/checkout/${_id}/placeOrder`);
   };
-  console.log(checkOutProduct);
 
+  console.log(products);
   return (
-    <div className="check-out">
-      <Header />
-      <div className="container mt-5">
-        <h4>CheckOut</h4>
-        <table className="table mt-4">
-          <thead>
-            <tr>
-              <th scope="col">Description</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <h4>{checkOutProduct.name}</h4>
-              </td>
-              <td>1</td>
-              <td>
-                <h4>${checkOutProduct.price}</h4>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div className="d-flex justify-content-end">
-          <button
-            onClick={handleAddOrder}
-            style={{ backgroundColor: "#71BA58" }}
-            className="btn text-white"
-          >
-            CheckOut
-          </button>
-        </div>
+    <div className="mt-5 container">
+      <h1>Checkout</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{products.name}</td>
+            <td>{products.author}</td>
+            <td>1</td>
+            <td>${products.price}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Want to check a different book? <a href="/home">Click Me</a>
+      </p>
+      <div className="d-flex justify-content-end">
+        <button
+          className="btn btn-success mt-3"
+          onClick={() => handleBuy(products._id)}
+        >
+          Place order
+        </button>
       </div>
     </div>
   );
