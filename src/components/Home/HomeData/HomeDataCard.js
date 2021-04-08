@@ -15,9 +15,12 @@ const HomeDataCard = ({ data }) => {
 
   const handleAdminDelete = (e, _id) => {
     console.log(e.target.parentNode);
-    fetch(`http://localhost:5000/orders/deleteAdmin/${_id}`, {
-      method: "DELETE",
-    })
+    fetch(
+      `https://sleepy-stream-34221.herokuapp.com/orders/deleteAdmin/${_id}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => res.json())
       .then((result) => {
         console.log(result);

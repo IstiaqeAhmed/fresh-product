@@ -12,7 +12,7 @@ const CheckOut = () => {
   const currentDate = new Date().toLocaleDateString();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/product/${id}`)
+    fetch(`https://sleepy-stream-34221.herokuapp.com/product/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setCheckOutProduct(data);
@@ -21,7 +21,7 @@ const CheckOut = () => {
 
   const handleAddOrder = () => {
     const newOrder = { ...loggedInUser, checkOutProduct, currentDate };
-    fetch(`http://localhost:5000/addOrder`, {
+    fetch(`https://sleepy-stream-34221.herokuapp.com/addOrder`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

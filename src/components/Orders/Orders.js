@@ -6,7 +6,10 @@ const Orders = () => {
   const [order, setOrder] = useState([]);
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
   useEffect(() => {
-    fetch("http://localhost:5000/orders?email=" + loggedInUser.email)
+    fetch(
+      "https://sleepy-stream-34221.herokuapp.com/orders?email=" +
+        loggedInUser.email
+    )
       .then((res) => res.json())
       .then((data) => setOrder(data));
   }, []);
@@ -15,7 +18,7 @@ const Orders = () => {
     console.log(
       e.target.parentNode.parentNode.parentNode.parentNode.parentNode
     );
-    fetch(`http://localhost:5000/delete/${_id}`, {
+    fetch(`https://sleepy-stream-34221.herokuapp.com/delete/${_id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

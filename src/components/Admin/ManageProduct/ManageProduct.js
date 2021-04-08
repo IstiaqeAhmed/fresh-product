@@ -4,7 +4,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 const ManageProduct = () => {
   const [orderList, setOrderList] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/order")
+    fetch("https://sleepy-stream-34221.herokuapp.com/order")
       .then((res) => res.json())
       .then((data) => {
         setOrderList(data);
@@ -12,7 +12,7 @@ const ManageProduct = () => {
   }, []);
 
   const handleClickDelete = (_id) => {
-    fetch(`http://localhost:5000/delete/${_id}`, {
+    fetch(`https://sleepy-stream-34221.herokuapp.com/delete/${_id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

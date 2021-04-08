@@ -20,7 +20,7 @@ const AddProduct = () => {
     formData.append("name", info.name);
     formData.append("price", info.price);
 
-    fetch("http://localhost:5000/addProduct", {
+    fetch("https://sleepy-stream-34221.herokuapp.com/addProduct", {
       method: "POST",
       body: formData,
     })

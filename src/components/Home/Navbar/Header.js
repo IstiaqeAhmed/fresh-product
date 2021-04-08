@@ -8,7 +8,7 @@ const Header = () => {
   );
 
   useEffect(() => {
-    fetch("http://localhost:5000/isAdmin", {
+    fetch("https://sleepy-stream-34221.herokuapp.com/isAdmin", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ email: loggedInUser.email }),

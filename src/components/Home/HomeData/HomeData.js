@@ -9,7 +9,7 @@ const HomeData = () => {
   const [search, setSearch] = useState("");
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
   useEffect(() => {
-    fetch("http://localhost:5000/products?search=" + search)
+    fetch("https://sleepy-stream-34221.herokuapp.com/products?search=" + search)
       .then((response) => response.json())
       .then((data) => {
         setValley(data);
