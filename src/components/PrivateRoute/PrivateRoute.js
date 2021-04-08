@@ -1,27 +1,25 @@
 import React, { useContext } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router';
 import { UserContext } from '../../App';
-import { isLoggedIn } from '../Login/LoginManager';
 
-const PrivateRoute = ({ children, ...rest }) => {
-    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
-    const loggedUser = isLoggedIn();
+const PrivateRoute = ({children,...rest}) => {
+    const [loggedInUser,setLoggedInUser] = useContext(UserContext)
     return (
         <Route
-            {...rest}
-            render={({ location }) =>
-                loggedInUser.email || loggedUser ? (
-                    children
-                ) : (
-                        <Redirect
-                            to={{
-                                pathname: "/login",
-                                state: { from: location }
-                            }}
-                        />
-                    )
-            }
-        />
+        {...rest}
+        render={({ location }) =>
+      (  loggedInUser.email || sessionStorage.getItem('token')) ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location }
+              }}
+            />
+          )
+        }
+      />
     );
 };
 
